@@ -1,6 +1,13 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
-import { StyleSheet, Text, View, ScrollView, FlatList } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  ScrollView,
+  FlatList,
+  TouchableOpacity,
+} from "react-native";
 
 export default function App() {
   const [todos, setTodos] = useState([
@@ -403,13 +410,22 @@ export default function App() {
     },
   ]);
 
+  const pressHandler = (id) => {
+    const selectedItem = (todos.filter(todo => todo.id === id))[0]
+    alert(selectedItem.title)
+  }
+
   return (
     <View style={styles.container}>
       <FlatList
-        numColumns= {3}
-        keyExtractor={item => item.id.toString()}
+        numColumns={3}
+        keyExtractor={(item) => item.id.toString()}
         data={todos}
-        renderItem={({ item }) => <Text style={styles.todo}>{item.title}</Text>}
+        renderItem={({ item }) => (
+          <TouchableOpacity onPress={() => pressHandler(item.id)}>
+            <Text style={styles.todo}>{item.title}</Text>
+          </TouchableOpacity>
+        )}
       />
       {/* <ScrollView>
         {todos.map((todo) => (
